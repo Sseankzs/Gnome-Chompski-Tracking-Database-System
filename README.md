@@ -9,9 +9,10 @@ This Tracking Database is done using a local MySQL server. For steps on how to i
 
 ## Clone repository
 i. Nagivate to your desired folder in GitBash  
+ii. Run the command below:  
  
 ```
-ii. git clone https://github.com/Sseankzs/Gnome-Chompski-Tracking-Database-System
+git clone https://github.com/Sseankzs/Gnome-Chompski-Tracking-Database-System
 ```
 
 ## Populate Table Guide 
