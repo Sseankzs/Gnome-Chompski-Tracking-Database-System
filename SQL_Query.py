@@ -4,8 +4,8 @@ from enum import Enum
 
 db = mysql.connector.connect(
     host= "localhost",
-    user= "Ssean",
-    passwd = "Ssean",
+    user= "root",
+    passwd = "LgCoB2sQl3$%",
     database = "GenCorp"
 )
 
@@ -127,7 +127,6 @@ def Update_Swarm():
         
 #Initial Set Ups (TODO: Populate Oversees)
 def Set_Up():
-    Create_DB()
     Create_Tables()
     Populate_Employee()
     Populate_Swarm()
@@ -140,7 +139,7 @@ def Create_Tables():
     mycursor.execute("CREATE TABLE Employee (employee_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,fname VARCHAR(50) NOT NULL, mname VARCHAR(50),lname VARCHAR(50) NOT NULL, password VARCHAR(50) NOT NULL, authorization ENUM('Intern','Employee', 'Supervisor', 'Bossman'))")
     mycursor.execute("CREATE TABLE Swarm (swarm_id int PRIMARY KEY AUTO_INCREMENT, name varchar(45) NOT NULL,quantity int, latitude double(9, 5), longitude double (9,5))")
     mycursor.execute("CREATE TABLE Oversees (employee_id int, swarm_id int, FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),  FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
-    mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, name VARCHAR(50), height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
+    mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,  age smallint, name VARCHAR(50), height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
     print("Tables created")
 
 def Populate_Employee():

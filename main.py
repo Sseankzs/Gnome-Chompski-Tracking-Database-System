@@ -17,6 +17,8 @@ def Show_Tables():
             sq.Show_Oversees()
         case 4:
             sq.Show_Swarms()
+        case 0:
+            return 0
     # Add if else statements for choices
     
     
@@ -44,8 +46,6 @@ def menu():
 #TODO: Add LogIn and Interface
         
 def main():
-    sq.Set_Up() # remove this code after running it onces
-    '''
     action = int(menu())
     while action != 0:
         while action < 1 or action > 6:
@@ -66,7 +66,7 @@ def main():
                 sq.Add_Overseers()
             case 0:
                 quit()
-    quit'''
+    quit()
 
 if __name__ == "__main__":
     main()
