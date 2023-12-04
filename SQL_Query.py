@@ -126,6 +126,16 @@ def Update_Swarm():
         
         
 #Initial Set Ups (TODO: Populate Oversees)
+def Set_Up():
+    Create_DB()
+    Create_Tables()
+    Populate_Employee()
+    Populate_Swarm()
+    Populate_Gnome_Chompskis()
+
+def Create_DB():
+    mycursor.execute("CREATE DATABASE GenCorp")
+
 def Create_Tables():
     mycursor.execute("CREATE TABLE Employee (employee_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,fname VARCHAR(50) NOT NULL, mname VARCHAR(50),lname VARCHAR(50) NOT NULL, password VARCHAR(50) NOT NULL, authorization ENUM('Intern','Employee', 'Supervisor', 'Bossman'))")
     mycursor.execute("CREATE TABLE Swarm (swarm_id int PRIMARY KEY AUTO_INCREMENT, name varchar(45) NOT NULL,quantity int, latitude double(9, 5), longitude double (9,5))")
