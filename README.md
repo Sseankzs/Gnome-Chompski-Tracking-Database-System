@@ -5,20 +5,20 @@ The purpose of this project is to create a method of tracking individual Gnome C
 
 # Setting up a Local MySQL Server for Python
 This Tracking Database is done using a local MySQL server. For steps on how to install a local MySQL server, click [here for a video tutorial][MySQLVideo]. 
-Note: Tutorial is slightly outdated, but the steps are pretty much the same.
+**NOTE**: Tutorial is slightly outdated, but the steps are pretty much the same.
 
 ## Clone repository
 i. Nagivate to your desired folder in GitBash  
-ii.  
+ 
 ```
- git clone https://github.com/Sseankzs/Gnome-Chompski-Tracking-Database-System
+ii. git clone https://github.com/Sseankzs/Gnome-Chompski-Tracking-Database-System
 ```
 
 ## Populate Table Guide 
-In main.py, run the below code in order.
+In main.py, run the below code in order.  
     i. sq.Populate_Employees()  
     ii. sq.Populate_Swarms()  
     iii. sq.Populate_Gnome_Chompskis()  
-note: Integrity constraints may occur if not done in order  
+**NOTE:** Integrity constraints may occur if not done in order  
 
 [MySQLVideo]: https://www.youtube.com/watch?v=3vsC05rxZ8c&list=PLzMcBGfZo4-l5kVSNVKGO60V6RkXAVtp-&ab_channel=TechWithTim
