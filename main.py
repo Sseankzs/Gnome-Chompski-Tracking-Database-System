@@ -1,10 +1,10 @@
 import SQL_Query as sq
 
     
-def Describe_Tables():
-    sq.Describe_Database()
-    table = input("Which table would you like to see?: ")
-    sq.Describe_Tables(table)
+def Show_Tables():
+    sq.Show_Database()
+    table = input("Which table # would you like to see?: ")
+    # Add if else statements for choices
     
     
 def Increase_Biodiversity(employee_id):
@@ -18,8 +18,10 @@ def Increase_Biodiversity(employee_id):
     else:
         print("you do not have acces to this function")
         
+#TODO: Add LogIn and Interface
+        
 def main():
-    sq.Populate_Gnome_Chompskis()
+    sq.Show_Database()
 
     quit()
 
