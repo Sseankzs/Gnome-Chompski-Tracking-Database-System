@@ -12,7 +12,7 @@ Note: Tutorial is slightly outdated, but the steps are pretty much the same.
 # Source Code
 ## Clone repository
 i. Nagivate to your desired folder in GitBash
-ii. '''git clone https://github.com/Sseankzs/Gnome-Chompski-Tracking-Database-System'''
+ii. ```git clone https://github.com/Sseankzs/Gnome-Chompski-Tracking-Database-System```
 
 ## Populate Table Guide 
 In main.py, run the below code in order.
