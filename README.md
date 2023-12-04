@@ -17,6 +17,7 @@ git clone https://github.com/Sseankzs/Gnome-Chompski-Tracking-Database-System
 
 ## Populate Table Guide 
 In main.py, run the below code in order.  
+* sq.Create_Tables()
 * sq.Populate_Employees()  
 * sq.Populate_Swarms()  
 * sq.Populate_Gnome_Chompskis()  
