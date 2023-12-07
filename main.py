@@ -1,5 +1,54 @@
 import SQL_Query as sq
+import time
+import os
 
+
+def Initial():  
+    SQLstatus = open("SQL_Status.txt", "r")
+    if SQLstatus.mode == 'r':
+        status = SQLstatus.read()
+        if status != "1" or "2":
+            print("Initializing Entities")
+            sq.Create_DB()
+            sq.Create_Tables()
+            
+            SQLstatus = open("SQL_Status.txt","w+")
+            
+            SQLstatus.write("1")
+            time.sleep(1)
+            print("Entities Initialized")
+            
+            Populate_Table(status)
+
+    
+def Populate_Table():
+    
+    tables = ["Employees", "Swarms", "Chompskis", "Oversees"]
+    
+    if any(not sq.Is_Populated(tables)):
+        populate_condition = ['Y', 'y', 'N', 'n', 'q', 'Q']
+        while populate in populate_condition:
+            populate = input("Would you like to populate the entity? (Data populated is entirely 'random')[y/n/q(quit)]:")
+            if populate == "Y" or populate == "y":
+                for i in tables:
+                    print("{}. Populate {}",(tables.index(i) + 1,i))
+                    x += 1
+                print("5. Populate All Entities")
+                print("6. I change my mind (back)")
+                while option < 0 or option > 6:
+                    option = int(input("Which entity would you like to populate?"))
+                for x in range (0,5):
+                    if not sq.Is_Populated(tables.x):
+                        sq.Populate(tables.option)
+                    else:
+                        print("Entity has been populated")
+                if option == 5:
+                    sq.Populate_All()
+    else: 
+        print("All entities have been populated")
+        return
+            
+            
     
 def Show_Tables():
     sq.Show_Database()
@@ -44,7 +93,19 @@ def menu():
 #TODO: Add LogIn and Interface
         
 def main():
-    sq.Set_Up() # remove this code after running it onces
+    
+    creds = sq.check_logged_in()
+    
+    if len(creds) == 0:
+        sq.sql_login()
+        sq.connect()
+        print("logged in")
+    else:
+        sq.connect()
+        print("you have connected")
+    
+
+    
     '''
     action = int(menu())
     while action != 0:

@@ -1,13 +1,65 @@
 import mysql.connector
 import random
 from enum import Enum
+import os
+from getpass import getpass
 
-db = mysql.connector.connect(
-    host= "localhost",
-    user= "Ssean",
-    passwd = "Ssean",
-    database = "GenCorp"
-)
+clear = lambda: os.system('cls')
+
+
+def check_logged_in():
+    sqlinfo = open ("sqlsecret.txt", "w+")
+    sqlinfo = open ("sqlsecret.txt", "r+")
+
+    while os.stat("sqlsecret.txt").st_size == 0:
+        sql_login()
+    
+    detail = sqlinfo.readline()
+    details = []
+    
+    for x in detail:
+        details.append(x.strip())
+
+    return details
+
+
+def sql_login():
+    print("Log in to your SQL Local Account")
+    username = input("Username:")
+    password = getpass()
+    
+    while connect(username, password) == False:
+        username = input("Username:")
+        password = getpass()
+    sqlinfo = open("sqlsecret.txt", "w+")
+    sqlinfo.writelines(username + "\n")
+    sqlinfo.write(password)
+    clear()
+
+
+def connect(*detail):
+    try:
+        if detail(2):
+            db
+            db = mysql.connector.connect(
+            host= "localhost",
+            user= detail(0),
+            passwd = detail(1),
+            database = detail(2)
+            )
+        else:
+            db = mysql.connector.connect(
+            host= "localhost",
+            user= detail(0),
+            passwd = detail(1)
+            )
+        return db
+    except:
+        print("Wrong username or password")
+        return TypeError       
+
+db_creds = check_logged_in()
+db = connect(db_creds)
 
 mycursor = db.cursor()
 
@@ -56,6 +108,10 @@ def Get_Authorization(employee_id : int):
     authorization = mycursor.execute(
         "SELECT authorization FROM Employee WHERE employee_id = {}".format(employee_id))
     return authorization
+
+def Is_Populated(table_name):
+    mycursor.execute(f'SELECT COUNT(*) FROM {table_name}')
+    return mycursor.fetchone()[0] > 0
 
 #Adders (TODO: Add Oversees)
 def Add_Employees(fname, mname, lname, password, authorization : str):
@@ -126,9 +182,8 @@ def Update_Swarm():
         
         
 #Initial Set Ups (TODO: Populate Oversees)
-def Set_Up():
-    Create_DB()
-    Create_Tables()
+def Populate_All():
+
     Populate_Employee()
     Populate_Swarm()
     Populate_Gnome_Chompskis()
@@ -142,6 +197,16 @@ def Create_Tables():
     mycursor.execute("CREATE TABLE Oversees (employee_id int, swarm_id int, FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),  FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
     mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, name VARCHAR(50), height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
     print("Tables created")
+
+def Populate(table):
+    if table == "Employee":
+        Populate_Employee()
+    elif table == "Swarm":
+        Populate_Swarm()
+    elif table == "Oversees":
+        Populate_Oversees()
+    elif table == "Gnome_Chompskis":
+        Populate_Gnome_Chompskis()
 
 def Populate_Employee():
     fname_list = ('James', 'Gabe', 'Jamal', 'Rudolf', 'Chuck', 'Evan', 'Benjamin', 'Nathan', 'Sean')
