@@ -141,6 +141,19 @@ def Delete_Swarm(condition : str):
         
         
 #Updaters (TODO: Update_Location, Update_Password, )
+def Update_Location():
+    swarm_exists = 0
+    while swarm_exists == 0:
+        s_id = input("Please enter the swarm id: ")
+        mycursor.execute("SELECT * FROM Swarm WHERE swarm_id = (%s)", (s_id,))
+        for x in mycursor:
+            swarm_exists += 1
+        if swarm_exists >= 1:
+            lat = input("Please enter the new latitude for the swarm: ")
+            long = input("Please enter the new longitude for the swarm: ")
+            mycursor.execute("UPDATE Swarm SET latitude = (%s), longitude = (%s) WHERE swarm_id = (%s)", (lat, long, s_id))
+    quit()
+
 def Update_Swarm():
     for i in range (1,10):
         quantity = mycursor.execute("SELECT COUNT (*) FROM Gnome_Chompskis WHERE swarm_id = {};".format(i))
@@ -154,6 +167,7 @@ def Set_Up():
     Populate_Employee()
     Populate_Swarm()
     Populate_Gnome_Chompskis()
+    Populate_Oversees()
 
 def Create_DB():
     mycursor.execute("CREATE DATABASE GenCorp")
@@ -195,8 +209,9 @@ def Populate_Swarm():
         print(x)
 
 def Populate_Oversees():
-    for _ in range(10):  
-        mycursor.execute("SELECT")
+    for n in range(1, 11):  
+        mycursor.execute("INSERT INTO Oversees(employee_id, swarm_id)VALUES(%s, %s)", (n, n))
+    db.commit()
         
         
     mycursor.execute("SELECT * FROM Oversees")

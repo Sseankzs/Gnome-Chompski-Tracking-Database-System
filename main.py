@@ -45,10 +45,11 @@ def menu():
 
 
 def main():
+    #sq.Populate_Oversees()
     sq.login()
     action = int(menu())
     while action != 0:
-        while action < 1 or action > 6:
+        while action < 1 or action > 7:
             print("Invalid action, please choose from the menu below")
             action = menu()
         match action:
@@ -64,6 +65,8 @@ def main():
                 sq.Add_Chompskis()
             case 6:
                 sq.Add_Overseers()
+            case 7:
+                sq.Update_Location()
             case 0:
                 quit()
     quit()
