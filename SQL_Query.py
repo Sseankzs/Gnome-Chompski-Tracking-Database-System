@@ -17,6 +17,29 @@ class Authorizations(Enum):
     SUPERVISOR = "Supervisor",
     BOSSMAN = "Bossman"
     
+#Login function
+def login():
+    found = 0
+    while found == 0:
+        id = input("Please enter your employee ID (enter 0 to quit): ")
+        if id == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s)", (id,))
+        for x in mycursor:
+            found += 1
+        if found == 0:
+            print("That Employee ID does not exist. Please enter a valid ID or scram!")
+    
+    correct = 0
+    while correct == 0:
+        pswd = input("Please enter your password (enter 0 to quit): ")
+        if pswd == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, pswd))
+        for x in mycursor:
+            correct += 1
+        if correct == 0:
+            print("That password is not correct. Enter the correct password or scram!")
 
 #Showers
 def Show_Employees():

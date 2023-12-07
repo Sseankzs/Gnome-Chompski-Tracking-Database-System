@@ -3,11 +3,11 @@ import SQL_Query as sq
     
 def Show_Tables():
     sq.Show_Database()
-    table = int(input("Which table # would you like to see? (3 does not work): "))
-    while table < 1 or table > 4:
+    table = int(input("Which table # would you like to see? (3 does not work, enter 0 to quit): "))
+    while table < 0 or table > 4:
         print("Please choose from the available table #")
         sq.Show_Database()
-        table = int(input("Which table # would you like to see? (3 does not work): "))
+        table = int(input("Which table # would you like to see? (3 does not work, enter 0 to quit): "))
     match table:
         case 1:
             sq.Show_Employees()
@@ -42,10 +42,10 @@ def menu():
     print("0. Quit")
     action = input("")
     return action
-            
-#TODO: Add LogIn and Interface
-        
+
+
 def main():
+    sq.login()
     action = int(menu())
     while action != 0:
         while action < 1 or action > 6:
