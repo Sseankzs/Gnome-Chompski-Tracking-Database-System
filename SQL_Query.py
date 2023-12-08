@@ -2,16 +2,13 @@ import mysql.connector
 import random
 from enum import Enum
 
-
-
 db = mysql.connector.connect(
     host= "localhost",
-    user= "root",
-    passwd = "LgCoB2sQl3$%",
+    user= "Ben",
+    passwd = "root",
     database = "GenCorp"
 
 )
-
 
 mycursor = db.cursor()
 
