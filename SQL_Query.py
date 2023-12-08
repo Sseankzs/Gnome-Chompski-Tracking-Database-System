@@ -152,7 +152,7 @@ def Update_Location():
             lat = input("Please enter the new latitude for the swarm: ")
             long = input("Please enter the new longitude for the swarm: ")
             mycursor.execute("UPDATE Swarm SET latitude = (%s), longitude = (%s) WHERE swarm_id = (%s)", (lat, long, s_id))
-    quit()
+    return 0
 
 def Update_Swarm():
     for i in range (1,10):
