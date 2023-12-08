@@ -159,6 +159,37 @@ def Delete_Swarm(condition : str):
         
         
 #Updaters (TODO: Update_Location, Update_Password, )
+def Update_Password():
+    found = 0
+    while found == 0:
+        id = input("Please enter your employee ID (enter 0 to quit): ")
+        if id == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s)", (id,))
+        for x in mycursor:
+            found += 1
+        if found == 0:
+            print("That Employee ID does not exist. Please enter a valid ID or scram!")
+    
+    correct = 0
+    while correct == 0:
+        pswd = input("Please enter your current password (enter 0 to quit): ")
+        if pswd == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, pswd))
+        for x in mycursor:
+            correct += 1
+        if correct == 0:
+            print("That password is not correct. Enter the correct password or scram!")
+
+    while correct2 == 0:
+        new_pswd = input("Please enter your new password (enter 0 to quit): ")
+        if new_pswd == '0':
+            quit()
+        else:
+            mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, new_pswd))
+    
+    s
 def Update_Location():
     swarm_exists = 0
     while swarm_exists == 0:
