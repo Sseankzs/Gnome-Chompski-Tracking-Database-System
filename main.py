@@ -65,20 +65,20 @@ def Show_Tables():
             return
         case 1:
             sq.Show_Employees()
+            okay = input("press ENTER")
             Show_Tables()
-            clear()
         case 2:
             sq.Show_Chompskis()
+            okay = input("press ENTER")
             Show_Tables()
-            clear()
         case 3:
             sq.Show_Oversees()
+            okay = input("press ENTER")
             Show_Tables()
-            clear()
         case 4:
             sq.Show_Swarms()
+            okay = input("press ENTER")
             Show_Tables()
-            clear()
         case 0:
             return 0
     # Add if else statements for choices
@@ -154,7 +154,7 @@ def Delete_Tuples():
             print("'Employee_id = 2 AND lname = benjamin'")
             print("Join conditions with 'AND' or 'OR'")
             condition = input("Enter your condition for deletion: ")
-            sq.Delete_Employees(condition)
+            sq.Delete_Employee(condition)
             Delete_Tuples()
         case 2:
             print("Example conditions:")
@@ -162,13 +162,7 @@ def Delete_Tuples():
             print("Join conditions with 'AND' or 'OR'")
             condition = input("Enter your condition for deletion: ")
             print()
-            sq.Delete_Chompskis(condition)
-            Delete_Tuples()
-        case 3:
-            print("Example conditions: 'employee_id = 2 AND swarm_id = poopy'")
-            print("Join conditions with 'AND' or 'OR'")
-            condition = input("Enter your condition for deletion: ")
-            sq.Delete_Oversees(condition)
+            sq.Delete_Chompski(condition)
             Delete_Tuples()
         case 4:
             print("Example conditions:")
