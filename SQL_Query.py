@@ -88,7 +88,7 @@ def Is_Populated(table_name):
 #Adders (TODO: Add Oversees)
 
 
-def Add_Employees(fname, mname, lname, password, authorization : str):
+def Add_Employee(fname, mname, lname, password, authorization : str):
     if not isinstance(authorization,Authorizations):
         raise TypeError('authorization must be an instance of Authorizations Enum')
     try:
@@ -119,7 +119,7 @@ def Add_Swarm(name : str, latitude : float, longitude : float):
         print(x)
     
 
-def Add_Chompskis(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
+def Add_Chompski(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
     try: 
         Chompskis = "INSERT Gnome_Chompski(age, name, height, weight, no_teeth, swarm_id)VALUES(%s,%s,%s,%s,%s,%s)", (age, name, height, weight, no_teeth, swarm_id)
         mycursor.execute(Chompskis)
