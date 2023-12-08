@@ -4,62 +4,17 @@ from enum import Enum
 import os
 from getpass import getpass
 
+
 clear = lambda: os.system('cls')
 
 
-def check_logged_in():
-    sqlinfo = open ("sqlsecret.txt", "w+")
-    sqlinfo = open ("sqlsecret.txt", "r+")
+db = mysql.connector.connect(
+    host= "localhost",
+    user= "Ssean",
+    passwd = "Ssean",
+    database = "gencorp"
+)
 
-    while os.stat("sqlsecret.txt").st_size == 0:
-        sql_login()
-    
-    detail = sqlinfo.readline()
-    details = []
-    
-    for x in detail:
-        details.append(x.strip())
-
-    return details
-
-
-def sql_login():
-    print("Log in to your SQL Local Account")
-    username = input("Username:")
-    password = getpass()
-    
-    while connect(username, password) == False:
-        username = input("Username:")
-        password = getpass()
-    sqlinfo = open("sqlsecret.txt", "w+")
-    sqlinfo.writelines(username + "\n")
-    sqlinfo.write(password)
-    clear()
-
-
-def connect(*detail):
-    try:
-        if detail(2):
-            db
-            db = mysql.connector.connect(
-            host= "localhost",
-            user= detail(0),
-            passwd = detail(1),
-            database = detail(2)
-            )
-        else:
-            db = mysql.connector.connect(
-            host= "localhost",
-            user= detail(0),
-            passwd = detail(1)
-            )
-        return db
-    except:
-        print("Wrong username or password")
-        return TypeError       
-
-db_creds = check_logged_in()
-db = connect(db_creds)
 
 mycursor = db.cursor()
 
@@ -114,6 +69,8 @@ def Is_Populated(table_name):
     return mycursor.fetchone()[0] > 0
 
 #Adders (TODO: Add Oversees)
+
+
 def Add_Employees(fname, mname, lname, password, authorization : str):
     if not isinstance(authorization,Authorizations):
         raise TypeError('authorization must be an instance of Authorizations Enum')
@@ -195,7 +152,7 @@ def Create_Tables():
     mycursor.execute("CREATE TABLE Employee (employee_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,fname VARCHAR(50) NOT NULL, mname VARCHAR(50),lname VARCHAR(50) NOT NULL, password VARCHAR(50) NOT NULL, authorization ENUM('Intern','Employee', 'Supervisor', 'Bossman'))")
     mycursor.execute("CREATE TABLE Swarm (swarm_id int PRIMARY KEY AUTO_INCREMENT, name varchar(45) NOT NULL,quantity int, latitude double(9, 5), longitude double (9,5))")
     mycursor.execute("CREATE TABLE Oversees (employee_id int, swarm_id int, FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),  FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
-    mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, name VARCHAR(50), height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
+    mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
     print("Tables created")
 
 def Populate(table):

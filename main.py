@@ -1,16 +1,13 @@
 import SQL_Query as sq
 import time
-import os
 
-
-def Initial():  
+def Initial_setup():  
     SQLstatus = open("SQL_Status.txt", "r")
     if SQLstatus.mode == 'r':
         status = SQLstatus.read()
-        if status != "1" or "2":
+        if status != "1":
             print("Initializing Entities")
-            sq.Create_DB()
-            sq.Create_Tables()
+            sq.Populate_All()
             
             SQLstatus = open("SQL_Status.txt","w+")
             
@@ -18,9 +15,8 @@ def Initial():
             time.sleep(1)
             print("Entities Initialized")
             
-            Populate_Table(status)
-
-    
+            
+#TODO: Change to increase biodiversity
 def Populate_Table():
     
     tables = ["Employees", "Swarms", "Chompskis", "Oversees"]
@@ -68,7 +64,6 @@ def Show_Tables():
             sq.Show_Swarms()
     # Add if else statements for choices
     
-    
 def Increase_Biodiversity(employee_id):
     if sq.Get_Authorization(employee_id) == 2:
         while new != "s" or new != "c":
@@ -80,29 +75,92 @@ def Increase_Biodiversity(employee_id):
     else:
         print("you do not have acces to this function")
         
+def Add_Tuples():
+    sq.Show_Database()
+    table = int(input("Which table # would you like to add to?: "))
+    while table < 1 or table > 4:
+        print("Please choose from the available table #")
+        sq.Show_Database()
+        table = int(input("Which table # would you like to see?: "))
+    match table:
+        case 1:
+            sq.Add_Employees()
+        case 2:
+            sq.Add_Chompskis()
+        case 3:
+            sq.Add_Oversees()
+        case 4:
+            sq.Add_Swarms()
+        
+def Delete_Tuples():
+    sq.Show_Database()
+    table = int(input("Which table # would you like to add to?: "))
+    while table < 1 or table > 4:
+        print("Please choose from the available table #")
+        sq.Show_Database()
+        table = int(input("Which table # would you like to see?: "))
+    match table:
+        case 1:
+            sq.Delete_Employees()
+        case 2:
+            sq.Delete_Chompskis()
+        case 3:
+            sq.Delete_Oversees()
+        case 4:
+            sq.Delete_Swarms()
+            
+def Search_Tuples():
+    sq.Show_Database()
+    table = int(input("Which table # would you like to delete from?: "))
+    while table < 1 or table > 4:
+        print("Please choose from the available table #")
+        sq.Show_Database()
+        table = int(input("Which table # would you like to see? (3 does not work): "))
+    match table:
+        case 1:
+            sq.Add_Employees()
+        case 2:
+            sq.Add_Chompskis()
+        case 3:
+            sq.Add_Oversees()
+        case 4:
+            sq.Add_Swarms()
+
 def menu():
     print("-----------Welcome to the Gnome Chompski Tracking Database System-----------")
     print("Choose your actions:")
-    print("1. Display Tables\t\t\t2. Increase BioDiversity")
-    print("3. Add Employees\t\t\t4. Add Swarms")
-    print("5. Add Chompskis\t\t\t6. Assign Overseers")
+    print("1. Display Tables\t\t\t2. Add Tuples")
+    print("3. Delete Tuples\t\t\t4. Search Tuples")
+    print("5. Increase Biodiversity")
     print("0. Quit")
     action = input("")
-    return action
+    while action != 0:
+        while action < 1 or action > 6:
+            print("Invalid action, please choose from the menu below")
+            action = menu()
+        match action:
+            case 1:
+                Show_Tables()
+            case 2:
+                Add_Tuples()
+            case 3:
+                Delete_Tuples()
+            case 4:
+                Search_Tuples()
+            case 5:
+                Increase_Biodiversity()
+            case 0:
+                quit()
             
 #TODO: Add LogIn and Interface
+
+
         
 def main():
+
+    Initial_setup()
     
-    creds = sq.check_logged_in()
-    
-    if len(creds) == 0:
-        sq.sql_login()
-        sq.connect()
-        print("logged in")
-    else:
-        sq.connect()
-        print("you have connected")
+    menu()
     
 
     
