@@ -103,12 +103,16 @@ def Add_Tuples():
             return
         case 1:
             sq.Add_Employees()
+            Add_Tuples()
         case 2:
+            Add_Tuples()
             sq.Add_Chompskis()
         case 3:
             sq.Add_Oversees()
+            Add_Tuples()
         case 4:
             sq.Add_Swarms()
+            Add_Tuples()
         
 def Delete_Tuples():
     clear()
@@ -123,12 +127,16 @@ def Delete_Tuples():
             return
         case 1:
             sq.Delete_Employees()
+            Delete_Tuples()
         case 2:
             sq.Delete_Chompskis()
+            Delete_Tuples()
         case 3:
             sq.Delete_Oversees()
+            Delete_Tuples()
         case 4:
             sq.Delete_Swarms()
+            Delete_Tuples()
             
 def Search_Tuples():
     clear()
@@ -143,12 +151,16 @@ def Search_Tuples():
             return
         case 1:
             sq.Search_Employees()
+            Search_Tuples()
         case 2:
             sq.Search_Chompskis()
+            Search_Tuples()
         case 3:
             sq.Search_Oversees()
+            Search_Tuples()
         case 4:
             sq.Search_Swarms()
+            Search_Tuples()
 
 def menu():
     action = 1
