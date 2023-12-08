@@ -4,13 +4,16 @@ from enum import Enum
 
 db = mysql.connector.connect(
     host= "localhost",
-    user= "ssean",
-    passwd = "ssean",
+    user= "root",
+    passwd = "password",
     database = "GenCorp"
 
 )
 
 mycursor = db.cursor()
+
+authorization_list = ('Intern', 'Employee', 'Supervisor')
+
 
 class Authorizations(Enum):
     INTERN = "Intern",
@@ -85,14 +88,14 @@ def Is_Populated(table_name):
     mycursor.execute(f'SELECT COUNT(*) FROM {table_name}')
     return mycursor.fetchone()[0] > 0
 
-#Adders (TODO: Add Oversees)
+def Add_Oversees(Emp_id, Swarm_id):
+    mycursor.execute("INSERT INTO Oversees(employee_id, swarm_id) VALUES(%s, %s)", (Emp_id, Swarm_id))
+    
 
-
-def Add_Employees(fname, mname, lname, password, authorization : str):
-    if not isinstance(authorization,Authorizations):
-        raise TypeError('authorization must be an instance of Authorizations Enum')
+def Add_Employees(fname, mname, lname, password, authorization_no):
+    authorization = authorization_list[authorization_no]
     try:
-        mycursor.execute("INSERT INTO Employees(fname, mname, lname, password, authorization)VALUES(%s,%s,%s,%s,%s)", (fname, mname, lname, password, authorization))
+        mycursor.execute("INSERT INTO Employee(fname, mname, lname, password, authorization)VALUES(%s,%s,%s,%s,%s)", (fname, mname, lname, password, authorization))
         db.commit()
     except mysql.connector.IntegrityError as err:
         print("Error: {}".format(err))
@@ -101,6 +104,10 @@ def Add_Employees(fname, mname, lname, password, authorization : str):
     print("Updated Employee Table:")
     print("(E_id, Fname, Mname, Lname, Password, Authorization)")
     mycursor.execute("SELECT * FROM Employee")
+    print("The insertion was succesful!")
+    choice = input("Would you like to commit? (Enter 1 to commit): ")
+    if choice == 1:
+        db.commit()
     for x in mycursor:
         print(x)
 
@@ -115,22 +122,25 @@ def Add_Swarm(name : str, latitude : float, longitude : float):
     print("Updated Swarm Table:")
     print("(s_id, name, quantity, latitude, longitude)")
     mycursor.execute("SELECT * FROM Swarm")
+    print("The insertion was succesful!")
+    choice = input("Would you like to commit? (Enter 1 to commit): ")
+    if choice == 1:
+        db.commit()
     for x in mycursor:
         print(x)
     
 
 def Add_Chompskis(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
     try: 
-        Chompskis = "INSERT Gnome_Chompski(age, name, height, weight, no_teeth, swarm_id)VALUES(%s,%s,%s,%s,%s,%s)", (age, name, height, weight, no_teeth, swarm_id)
-        mycursor.execute(Chompskis)
-        quantity = mycursor.execute("SELECT COUNT (*) FROM Gnome_Chompskis WHERE swarm_id = %s", (swarm_id))
-        mycursor.execute("UPDATE Swarm SET quantity = %s WHERE swarm_id = %s", (quantity,swarm_id))
+        mycursor.execute("INSERT Gnome_Chompskis(age, name, height, weight, no_teeth, swarm_id)VALUES(%s,%s,%s,%s,%s,%s)", (age, name, height, weight, no_teeth, swarm_id))
+        quantity = mycursor.execute("SELECT FROM Gnome_Chompskis WHERE swarm_id = {}".format(swarm_id))
+        mycursor.execute("UPDATE Swarm SET quantity = {} WHERE swarm_id = {}".format(quantity,swarm_id))
         db.commit()   
     except mysql.connector.IntegrityError as err:
         print("Error: {}".format(err))
         return err
     
-    mycursor.execute("SELECT * FROM Gnome_Chompski")
+    mycursor.execute("SELECT * FROM Gnome_Chompskis")
     for x in mycursor:
         print(x)
     
