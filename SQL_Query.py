@@ -4,8 +4,8 @@ from enum import Enum
 
 db = mysql.connector.connect(
     host= "localhost",
-    user= "root",
-    passwd = "password",
+    user= "Ben",
+    passwd = "root",
     database = "GenCorp"
 
 )
@@ -90,6 +90,7 @@ def Is_Populated(table_name):
 
 def Add_Oversees(Emp_id, Swarm_id):
     mycursor.execute("INSERT INTO Oversees(employee_id, swarm_id) VALUES(%s, %s)", (Emp_id, Swarm_id))
+    db.commit()
     
 
 def Add_Employees(fname, mname, lname, password, authorization_no):
@@ -134,6 +135,7 @@ def Add_Swarm(name : str, latitude : float, longitude : float):
 def Add_Chompski(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
     try: 
         mycursor.execute("INSERT Gnome_Chompskis(age, name, height, weight, no_teeth, swarm_id)VALUES(%s,%s,%s,%s,%s,%s)", (age, name, height, weight, no_teeth, swarm_id))
+        db.commit()
         quantity = mycursor.execute("SELECT FROM Gnome_Chompskis WHERE swarm_id = {}".format(swarm_id))
         mycursor.execute("UPDATE Swarm SET quantity = {} WHERE swarm_id = {}".format(quantity,swarm_id))
         db.commit()   
@@ -222,12 +224,14 @@ def Update_Location():
             lat = input("Please enter the new latitude for the swarm: ")
             long = input("Please enter the new longitude for the swarm: ")
             mycursor.execute("UPDATE Swarm SET latitude = (%s), longitude = (%s) WHERE swarm_id = (%s)", (lat, long, s_id))
+            db.commit()
     return 0
 
 def Update_Swarm():
     for i in range (1,10):
         quantity = mycursor.execute("SELECT COUNT (*) FROM Gnome_Chompskis WHERE swarm_id = {};".format(i))
         mycursor.execute("UPDATE Swarm SET quantity = %s WHERE swarm_id = %s", (quantity,i))
+        db.commit()
         
  #Search (TODO: Search_Chompski, Search_Employee, Search_Swarm, Search_Oversees)
 def Search(table_name : str):
