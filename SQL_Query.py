@@ -116,7 +116,7 @@ def Add_Swarm(name : str, latitude : float, longitude : float):
     try:
         mycursor.execute("INSERT INTO Swarm(name, latitude, longitude)VALUES(%s,%s,%s)",(name,latitude,longitude))
         db.commit()
-    except  mysql.connector.IntegrityError as err:
+    except mysql.connector.IntegrityError as err:
         print("Error: {}".format(err))
     
     print("Swarm Added Successfully")
@@ -211,7 +211,6 @@ def Update_Password():
         else:
             mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, new_pswd))
     
-    s
 def Update_Location():
     swarm_exists = 0
     while swarm_exists == 0:
@@ -230,7 +229,12 @@ def Update_Swarm():
         quantity = mycursor.execute("SELECT COUNT (*) FROM Gnome_Chompskis WHERE swarm_id = {};".format(i))
         mycursor.execute("UPDATE Swarm SET quantity = %s WHERE swarm_id = %s", (quantity,i))
         
- #Search (TODO: Search_Chompski, Search_Employee, Search_Swarm, Search_Oversees)       
+ #Search (TODO: Search_Chompski, Search_Employee, Search_Swarm, Search_Oversees)
+def Search(table_name : str):
+    mycursor.execute("SHOW COLUMNS FROM (%s)", (table_name, ))
+    Conditions = input("Attributes to search (input in SQL readable format or else): ")
+    mycursor.execute("SELECT * FROM (%s) WHERE (%s)", (table_name, conditions))
+
         
 #Initial Set Ups (TODO: Populate Oversees)
 def Populate_All():
