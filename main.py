@@ -44,7 +44,7 @@ def menu():
 #TODO: Add LogIn and Interface
         
 def main():
-    sq.Set_Up() # remove this code after running it onces
+    #sq.Set_Up() # remove this code after running it onces
     '''
     action = int(menu())
     while action != 0:

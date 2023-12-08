@@ -4,8 +4,8 @@ from enum import Enum
 
 db = mysql.connector.connect(
     host= "localhost",
-    user= "Ssean",
-    passwd = "Ssean",
+    user= "Ben",
+    passwd = "root",
     database = "GenCorp"
 )
 
@@ -105,6 +105,17 @@ def Add_Chompskis(age : int, name : str, height : float, weight : float, no_teet
         print(x)
     
 #Removers (TODO: add delete employee/chompski/oversees)
+def Delete_Employee(condition : str):
+    try:
+        mycursor.execute("DELETE FROM Employee WHERE %s",(condition))
+        db.commit()
+    except mysql.connector.errors.ProgrammingError as err:
+        print("Error: Condition does not exist. {}".format(err))
+        return err
+    mycursor.execute("SELECT * FROM Employee")
+    for x in mycursor:
+        print(x)
+
 def Delete_Swarm(condition : str):
     try: 
         mycursor.execute("DELETE FROM Swarm WHERE {}".format(condition))
@@ -127,7 +138,6 @@ def Update_Swarm():
         
 #Initial Set Ups (TODO: Populate Oversees)
 def Set_Up():
-    Create_DB()
     Create_Tables()
     Populate_Employee()
     Populate_Swarm()
@@ -137,10 +147,10 @@ def Create_DB():
     mycursor.execute("CREATE DATABASE GenCorp")
 
 def Create_Tables():
-    mycursor.execute("CREATE TABLE Employee (employee_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,fname VARCHAR(50) NOT NULL, mname VARCHAR(50),lname VARCHAR(50) NOT NULL, password VARCHAR(50) NOT NULL, authorization ENUM('Intern','Employee', 'Supervisor', 'Bossman'))")
-    mycursor.execute("CREATE TABLE Swarm (swarm_id int PRIMARY KEY AUTO_INCREMENT, name varchar(45) NOT NULL,quantity int, latitude double(9, 5), longitude double (9,5))")
-    mycursor.execute("CREATE TABLE Oversees (employee_id int, swarm_id int, FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),  FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
-    mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, name VARCHAR(50), height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
+    #mycursor.execute("CREATE TABLE Employee (employee_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,fname VARCHAR(50) NOT NULL, mname VARCHAR(50),lname VARCHAR(50) NOT NULL, password VARCHAR(50) NOT NULL, authorization ENUM('Intern','Employee', 'Supervisor', 'Bossman'))")
+    #mycursor.execute("CREATE TABLE Swarm (swarm_id int PRIMARY KEY AUTO_INCREMENT, name varchar(45) NOT NULL,quantity int, latitude double(9, 5), longitude double (9,5))")
+    #mycursor.execute("CREATE TABLE Oversees (employee_id int, swarm_id int, FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),  FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
+    mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
     print("Tables created")
 
 def Populate_Employee():
