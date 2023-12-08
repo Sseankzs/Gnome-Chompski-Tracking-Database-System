@@ -118,13 +118,13 @@ def Search_Tuples():
         table = int(input("Which table # would you like to see? (3 does not work): "))
     match table:
         case 1:
-            sq.Add_Employees()
+            sq.Search_Employees()
         case 2:
-            sq.Add_Chompskis()
+            sq.Search_Chompskis()
         case 3:
-            sq.Add_Oversees()
+            sq.Search_Oversees()
         case 4:
-            sq.Add_Swarms()
+            sq.Search_Swarms()
 
 def menu():
     print("-----------Welcome to the Gnome Chompski Tracking Database System-----------")
