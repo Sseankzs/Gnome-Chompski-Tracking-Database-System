@@ -62,11 +62,12 @@ def Increase_Biodiversity(employee_id):
 def Show_Tables():
     
     sq.Show_Database()
-    table = int(input("Which table # would you like to see? (3 does not work): "))
+    table = int(input("Which table # would you like to see? (3 does not work, enter 0 to quit): "))
+
     while table < 0 or table > 4:
         print("Please choose from the available table #")
         sq.Show_Database()
-        table = int(input("Which table # would you like to see? (3 does not work): "))
+        table = int(input("Which table # would you like to see? (3 does not work, enter 0 to quit): "))
     match table:
         case 0:
             clear(  )
@@ -85,8 +86,8 @@ def Show_Tables():
             clear()
         case 4:
             sq.Show_Swarms()
-            Show_Tables()
-            clear()
+        case 0:
+            return 0
     # Add if else statements for choices
     
         
@@ -163,6 +164,7 @@ def Search_Tuples():
             Search_Tuples()
 
 def menu():
+    login()
     action = 1
     clear()
     while action != 0:
@@ -210,7 +212,7 @@ def main():
     '''
     action = int(menu())
     while action != 0:
-        while action < 1 or action > 6:
+        while action < 1 or action > 7:
             print("Invalid action, please choose from the menu below")
             action = menu()
         match action:
@@ -226,9 +228,11 @@ def main():
                 sq.Add_Chompskis()
             case 6:
                 sq.Add_Overseers()
+            case 7:
+                sq.Update_Location()
             case 0:
                 quit()
-    quit'''
+    quit()
 
 if __name__ == "__main__":
     main()
