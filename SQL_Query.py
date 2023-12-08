@@ -4,9 +4,10 @@ from enum import Enum
 
 db = mysql.connector.connect(
     host= "localhost",
-    user= "Ssean",
-    passwd = "Ssean",
-    database = "gencorp"
+    user= "root",
+    passwd = "LgCoB2sQl3$%",
+    database = "GenCorp"
+
 )
 
 mycursor = db.cursor()
@@ -17,6 +18,29 @@ class Authorizations(Enum):
     SUPERVISOR = "Supervisor",
     BOSSMAN = "Bossman"
     
+#Login function
+def login():
+    found = 0
+    while found == 0:
+        id = input("Please enter your employee ID (enter 0 to quit): ")
+        if id == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s)", (id,))
+        for x in mycursor:
+            found += 1
+        if found == 0:
+            print("That Employee ID does not exist. Please enter a valid ID or scram!")
+    
+    correct = 0
+    while correct == 0:
+        pswd = input("Please enter your password (enter 0 to quit): ")
+        if pswd == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, pswd))
+        for x in mycursor:
+            correct += 1
+        if correct == 0:
+            print("That password is not correct. Enter the correct password or scram!")
 
 #Showers
 def Show_Employees():
@@ -135,6 +159,19 @@ def Delete_Swarm(condition : str):
         
         
 #Updaters (TODO: Update_Location, Update_Password, )
+def Update_Location():
+    swarm_exists = 0
+    while swarm_exists == 0:
+        s_id = input("Please enter the swarm id: ")
+        mycursor.execute("SELECT * FROM Swarm WHERE swarm_id = (%s)", (s_id,))
+        for x in mycursor:
+            swarm_exists += 1
+        if swarm_exists >= 1:
+            lat = input("Please enter the new latitude for the swarm: ")
+            long = input("Please enter the new longitude for the swarm: ")
+            mycursor.execute("UPDATE Swarm SET latitude = (%s), longitude = (%s) WHERE swarm_id = (%s)", (lat, long, s_id))
+    return 0
+
 def Update_Swarm():
     for i in range (1,10):
         quantity = mycursor.execute("SELECT COUNT (*) FROM Gnome_Chompskis WHERE swarm_id = {};".format(i))
@@ -143,11 +180,11 @@ def Update_Swarm():
         
         
 #Initial Set Ups (TODO: Populate Oversees)
-
 def Populate_All():
     Populate_Employee()
     Populate_Swarm()
     Populate_Gnome_Chompskis()
+    Populate_Oversees()
 
 def Create_DB():
     mycursor.execute("CREATE DATABASE GenCorp")
@@ -199,8 +236,9 @@ def Populate_Swarm():
         print(x)
 
 def Populate_Oversees():
-    for _ in range(10):  
-        mycursor.execute("SELECT")
+    for n in range(1, 11):  
+        mycursor.execute("INSERT INTO Oversees(employee_id, swarm_id)VALUES(%s, %s)", (n, n))
+    db.commit()
         
         
     mycursor.execute("SELECT * FROM Oversees")

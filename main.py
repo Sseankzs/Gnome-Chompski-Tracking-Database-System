@@ -62,11 +62,12 @@ def Increase_Biodiversity(employee_id):
 def Show_Tables():
     
     sq.Show_Database()
-    table = int(input("Which table # would you like to see? (3 does not work): "))
+    table = int(input("Which table # would you like to see? (3 does not work, enter 0 to quit): "))
+
     while table < 0 or table > 4:
         print("Please choose from the available table #")
         sq.Show_Database()
-        table = int(input("Which table # would you like to see? (3 does not work): "))
+        table = int(input("Which table # would you like to see? (3 does not work, enter 0 to quit): "))
     match table:
         case 0:
             clear(  )
@@ -85,8 +86,8 @@ def Show_Tables():
             clear()
         case 4:
             sq.Show_Swarms()
-            Show_Tables()
-            clear()
+        case 0:
+            return 0
     # Add if else statements for choices
     
         
@@ -103,12 +104,16 @@ def Add_Tuples():
             return
         case 1:
             sq.Add_Employees()
+            Add_Tuples()
         case 2:
+            Add_Tuples()
             sq.Add_Chompskis()
         case 3:
             sq.Add_Oversees()
+            Add_Tuples()
         case 4:
             sq.Add_Swarms()
+            Add_Tuples()
         
 def Delete_Tuples():
     clear()
@@ -123,12 +128,16 @@ def Delete_Tuples():
             return
         case 1:
             sq.Delete_Employees()
+            Delete_Tuples()
         case 2:
             sq.Delete_Chompskis()
+            Delete_Tuples()
         case 3:
             sq.Delete_Oversees()
+            Delete_Tuples()
         case 4:
             sq.Delete_Swarms()
+            Delete_Tuples()
             
 def Search_Tuples():
     clear()
@@ -143,14 +152,19 @@ def Search_Tuples():
             return
         case 1:
             sq.Search_Employees()
+            Search_Tuples()
         case 2:
             sq.Search_Chompskis()
+            Search_Tuples()
         case 3:
             sq.Search_Oversees()
+            Search_Tuples()
         case 4:
             sq.Search_Swarms()
+            Search_Tuples()
 
 def menu():
+    login()
     action = 1
     clear()
     while action != 0:
@@ -193,7 +207,7 @@ def main():
     '''
     action = int(menu())
     while action != 0:
-        while action < 1 or action > 6:
+        while action < 1 or action > 7:
             print("Invalid action, please choose from the menu below")
             action = menu()
         match action:
@@ -209,9 +223,11 @@ def main():
                 sq.Add_Chompskis()
             case 6:
                 sq.Add_Overseers()
+            case 7:
+                sq.Update_Location()
             case 0:
                 quit()
-    quit'''
+    quit()
 
 if __name__ == "__main__":
     main()
