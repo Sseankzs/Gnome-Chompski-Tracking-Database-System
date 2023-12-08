@@ -189,13 +189,7 @@ def menu():
 
         
 def main():
-
-    Initial_setup()
-    
-    menu()
-    
-
-    
+    #sq.Set_Up() # remove this code after running it onces
     '''
     action = int(menu())
     while action != 0:

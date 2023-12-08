@@ -2,15 +2,12 @@ import mysql.connector
 import random
 from enum import Enum
 
-
-
 db = mysql.connector.connect(
     host= "localhost",
-    user= "Ben",
-    passwd = "root",
-    database = "GenCorp"
+    user= "Ssean",
+    passwd = "Ssean",
+    database = "gencorp"
 )
-
 
 mycursor = db.cursor()
 
@@ -146,8 +143,8 @@ def Update_Swarm():
         
         
 #Initial Set Ups (TODO: Populate Oversees)
-def Populate_All():
 
+def Populate_All():
     Populate_Employee()
     Populate_Swarm()
     Populate_Gnome_Chompskis()
