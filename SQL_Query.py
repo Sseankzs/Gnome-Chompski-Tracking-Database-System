@@ -2,7 +2,6 @@ import mysql.connector
 import random
 from enum import Enum
 import os
-from getpass import getpass
 
 
 clear = lambda: os.system('cls')
