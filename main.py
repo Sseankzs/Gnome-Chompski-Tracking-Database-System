@@ -164,7 +164,7 @@ def Search_Tuples():
             Search_Tuples()
 
 def menu():
-    login()
+    sq.login()
     action = 1
     clear()
     while action != 0:
@@ -203,11 +203,9 @@ def menu():
 
         
 def main():
-
-
     Initial_setup()
-    
     menu()
+
 
     '''
     action = int(menu())
@@ -233,6 +231,7 @@ def main():
             case 0:
                 quit()
     quit()
+    '''
 
 if __name__ == "__main__":
     main()
