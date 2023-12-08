@@ -231,7 +231,7 @@ def main():
             case 7:
                 sq.Update_Location()
             case 0:
-                quit()
+                quit()'''
     quit()
 
 if __name__ == "__main__":
