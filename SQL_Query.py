@@ -156,6 +156,17 @@ def Delete_Swarm(condition : str):
     mycursor.execute("SELECT * FROM Swarm")
     for x in mycursor:
         print(x)
+
+def Delete_Chompski(condition : str):
+    try:
+        mycursor.execute("DELETE FROM Gnome_Chompski WHERE {}".format(condition))
+        db.commit()
+    except mysql.connector.errors.ProgrammingError as err:
+        print("Error: Condition does not exist. {}".format(err))
+        return err
+    mycursor.execute("SELECT * FROM Gnome_Chompski")
+    for x in mycursor:
+        print(x)
         
         
 #Updaters (TODO: Update_Location, Update_Password, )
