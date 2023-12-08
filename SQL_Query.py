@@ -1,10 +1,7 @@
 import mysql.connector
 import random
 from enum import Enum
-import os
 
-
-clear = lambda: os.system('cls')
 
 
 db = mysql.connector.connect(
