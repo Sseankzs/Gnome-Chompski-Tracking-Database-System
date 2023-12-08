@@ -1,13 +1,19 @@
 import mysql.connector
 import random
 from enum import Enum
+import os
+
+
+clear = lambda: os.system('cls')
+
 
 db = mysql.connector.connect(
     host= "localhost",
     user= "Ssean",
     passwd = "Ssean",
-    database = "GenCorp"
+    database = "gencorp"
 )
+
 
 mycursor = db.cursor()
 
@@ -57,7 +63,13 @@ def Get_Authorization(employee_id : int):
         "SELECT authorization FROM Employee WHERE employee_id = {}".format(employee_id))
     return authorization
 
+def Is_Populated(table_name):
+    mycursor.execute(f'SELECT COUNT(*) FROM {table_name}')
+    return mycursor.fetchone()[0] > 0
+
 #Adders (TODO: Add Oversees)
+
+
 def Add_Employees(fname, mname, lname, password, authorization : str):
     if not isinstance(authorization,Authorizations):
         raise TypeError('authorization must be an instance of Authorizations Enum')
@@ -126,9 +138,8 @@ def Update_Swarm():
         
         
 #Initial Set Ups (TODO: Populate Oversees)
-def Set_Up():
-    Create_DB()
-    Create_Tables()
+def Populate_All():
+
     Populate_Employee()
     Populate_Swarm()
     Populate_Gnome_Chompskis()
@@ -140,8 +151,18 @@ def Create_Tables():
     mycursor.execute("CREATE TABLE Employee (employee_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,fname VARCHAR(50) NOT NULL, mname VARCHAR(50),lname VARCHAR(50) NOT NULL, password VARCHAR(50) NOT NULL, authorization ENUM('Intern','Employee', 'Supervisor', 'Bossman'))")
     mycursor.execute("CREATE TABLE Swarm (swarm_id int PRIMARY KEY AUTO_INCREMENT, name varchar(45) NOT NULL,quantity int, latitude double(9, 5), longitude double (9,5))")
     mycursor.execute("CREATE TABLE Oversees (employee_id int, swarm_id int, FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),  FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
-    mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, name VARCHAR(50), height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
+    mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
     print("Tables created")
+
+def Populate(table):
+    if table == "Employee":
+        Populate_Employee()
+    elif table == "Swarm":
+        Populate_Swarm()
+    elif table == "Oversees":
+        Populate_Oversees()
+    elif table == "Gnome_Chompskis":
+        Populate_Gnome_Chompskis()
 
 def Populate_Employee():
     fname_list = ('James', 'Gabe', 'Jamal', 'Rudolf', 'Chuck', 'Evan', 'Benjamin', 'Nathan', 'Sean')
