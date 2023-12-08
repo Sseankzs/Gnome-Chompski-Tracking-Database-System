@@ -150,10 +150,11 @@ def Add_Chompski(age : int, name : str, height : float, weight : float, no_teeth
 #Removers (TODO:)
 def Delete_Employee(condition : str):
     try:
-        mycursor.execute("DELETE FROM Employee WHERE %s",(condition))
+        mycursor.execute("DELETE FROM Employee WHERE {}".format(condition))
         db.commit()
     except mysql.connector.errors.ProgrammingError as err:
         print("Error: Condition does not exist. {}".format(err))
+        ok = input("press ENTER")
         return err
     mycursor.execute("SELECT * FROM Employee")
     for x in mycursor:
@@ -235,9 +236,9 @@ def Update_Swarm():
         
  #Search (TODO: Search_Chompski, Search_Employee, Search_Swarm, Search_Oversees)
 def Search(table_name : str):
-    mycursor.execute("SHOW COLUMNS FROM (%s)", (table_name, ))
+    mycursor.execute("SHOW COLUMNS FROM {}".format(table_name))
     Conditions = input("Attributes to search (input in SQL readable format or else): ")
-    mycursor.execute("SELECT * FROM (%s) WHERE (%s)", (table_name, conditions))
+    mycursor.execute("SELECT (*) FROM %s WHERE %s", (table_name, Conditions))
 
         
 #Initial Set Ups (TODO: Populate Oversees)

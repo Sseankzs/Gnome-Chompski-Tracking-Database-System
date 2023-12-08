@@ -65,20 +65,20 @@ def Show_Tables():
             return
         case 1:
             sq.Show_Employees()
+            okay = input("press ENTER")
             Show_Tables()
-            clear()
         case 2:
             sq.Show_Chompskis()
+            okay = input("press ENTER")
             Show_Tables()
-            clear()
         case 3:
             sq.Show_Oversees()
+            okay = input("press ENTER")
             Show_Tables()
-            clear()
         case 4:
             sq.Show_Swarms()
+            okay = input("press ENTER")
             Show_Tables()
-            clear()
         case 0:
             return 0
     # Add if else statements for choices
@@ -120,7 +120,7 @@ def Add_Tuples():
             weight = float(input("Please enter Chompski weight: "))
             no_teeth = int(input("Please enter number of teeth: "))
             swarm_id = int(input("Please enter swarm_id: "))
-            sq.Add_Chompskis(age, name, height, weight, no_teeth, swarm_id)
+            sq.Add_Chompski(age, name, height, weight, no_teeth, swarm_id)
             Add_Tuples()
 
         case 3:
@@ -132,7 +132,7 @@ def Add_Tuples():
             name = input("Enter swarm name: ")
             latitude = float("Enter latitude: ")
             longitude = float("Enter longitude: ")
-            sq.Add_Swarms(name, latitude, longitude)
+            sq.Add_Swarm(name, latitude, longitude)
             Add_Tuples()
         case 0:
             return
@@ -163,19 +163,14 @@ def Delete_Tuples():
             condition = input("Enter your condition for deletion: ")
             print()
             sq.Delete_Chompski(condition)
-            Delete_Tuples()
-        case 3:
-            print("Example conditions: 'employee_id = 2 AND swarm_id = poopy'")
-            print("Join conditions with 'AND' or 'OR'")
-            condition = input("Enter your condition for deletion: ")
-            sq.Delete_Oversees(condition)
+
             Delete_Tuples()
         case 4:
             print("Example conditions:")
             print("'swarm_id = 2 AND name = Goopy'")
             print("Join conditions with 'AND' or 'OR'")
             condition = input("Enter your condition for deletion: ")
-            sq.Delete_Swarms(condition)
+            sq.Delete_Swarm(condition)
             Delete_Tuples()
             
 def Search_Tuples():
@@ -211,10 +206,9 @@ def menu():
         print("Choose your actions:")
         print("1. Display Tables\t\t\t2. Add Tuples")
         print("3. Delete Tuples\t\t\t4. Search Tuples")
-        print("5. Increase Biodiversity")
         print("0. Quit")
         action = int(input(""))
-        while action < 0 or action > 6:
+        while action < 0 or action > 5:
             print("Invalid action, please choose from the menu below")
             action = menu()
         match action:
@@ -230,9 +224,6 @@ def menu():
             case 4:
                 Search_Tuples()
                 menu()
-            case 5:
-                Increase_Biodiversity()
-                menu()
             case 0:
                 quit()
             
@@ -243,33 +234,6 @@ def menu():
 def main():
     Initial_setup()
     menu()
-
-
-    '''
-    action = int(menu())
-    while action != 0:
-        while action < 1 or action > 7:
-            print("Invalid action, please choose from the menu below")
-            action = menu()
-        match action:
-            case 1:
-                Show_Tables()
-            case 2:
-                Increase_Biodiversity()
-            case 3:
-                sq.Add_Employees()
-            case 4:
-                sq.Add_Swarm()
-            case 5:
-                sq.Add_Chompskis()
-            case 6:
-                sq.Add_Overseers()
-            case 7:
-                sq.Update_Location()
-            case 0:
-                quit()
-    quit()
-    '''
 
 if __name__ == "__main__":
     main()
