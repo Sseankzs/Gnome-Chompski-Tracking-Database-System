@@ -94,6 +94,7 @@ def Add_Oversees(Emp_id, Swarm_id):
 
 def Add_Employees(fname, mname, lname, password, authorization_no):
     authorization = authorization_list[authorization_no]
+
     try:
         mycursor.execute("INSERT INTO Employee(fname, mname, lname, password, authorization)VALUES(%s,%s,%s,%s,%s)", (fname, mname, lname, password, authorization))
         db.commit()
@@ -130,7 +131,7 @@ def Add_Swarm(name : str, latitude : float, longitude : float):
         print(x)
     
 
-def Add_Chompskis(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
+def Add_Chompski(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
     try: 
         mycursor.execute("INSERT Gnome_Chompskis(age, name, height, weight, no_teeth, swarm_id)VALUES(%s,%s,%s,%s,%s,%s)", (age, name, height, weight, no_teeth, swarm_id))
         quantity = mycursor.execute("SELECT FROM Gnome_Chompskis WHERE swarm_id = {}".format(swarm_id))
@@ -144,7 +145,7 @@ def Add_Chompskis(age : int, name : str, height : float, weight : float, no_teet
     for x in mycursor:
         print(x)
     
-#Removers (TODO: add delete employee/chompski/oversees)
+#Removers (TODO:)
 def Delete_Employee(condition : str):
     try:
         mycursor.execute("DELETE FROM Employee WHERE %s",(condition))
@@ -166,9 +167,51 @@ def Delete_Swarm(condition : str):
     mycursor.execute("SELECT * FROM Swarm")
     for x in mycursor:
         print(x)
+
+def Delete_Chompski(condition : str):
+    try:
+        mycursor.execute("DELETE FROM Gnome_Chompski WHERE {}".format(condition))
+        db.commit()
+    except mysql.connector.errors.ProgrammingError as err:
+        print("Error: Condition does not exist. {}".format(err))
+        return err
+    mycursor.execute("SELECT * FROM Gnome_Chompski")
+    for x in mycursor:
+        print(x)
         
         
-#Updaters (TODO: Update_Location, Update_Password, )
+#Updaters (TODO: Update_Authorization, Update_Swarm )
+def Update_Password():
+    found = 0
+    while found == 0:
+        id = input("Please enter your employee ID (enter 0 to quit): ")
+        if id == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s)", (id,))
+        for x in mycursor:
+            found += 1
+        if found == 0:
+            print("That Employee ID does not exist. Please enter a valid ID or scram!")
+    
+    correct = 0
+    while correct == 0:
+        pswd = input("Please enter your current password (enter 0 to quit): ")
+        if pswd == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, pswd))
+        for x in mycursor:
+            correct += 1
+        if correct == 0:
+            print("That password is not correct. Enter the correct password or scram!")
+
+    while correct2 == 0:
+        new_pswd = input("Please enter your new password (enter 0 to quit): ")
+        if new_pswd == '0':
+            quit()
+        else:
+            mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, new_pswd))
+    
+    s
 def Update_Location():
     swarm_exists = 0
     while swarm_exists == 0:
@@ -187,7 +230,7 @@ def Update_Swarm():
         quantity = mycursor.execute("SELECT COUNT (*) FROM Gnome_Chompskis WHERE swarm_id = {};".format(i))
         mycursor.execute("UPDATE Swarm SET quantity = %s WHERE swarm_id = %s", (quantity,i))
         
-        
+ #Search (TODO: Search_Chompski, Search_Employee, Search_Swarm, Search_Oversees)       
         
 #Initial Set Ups (TODO: Populate Oversees)
 def Populate_All():
