@@ -4,8 +4,8 @@ from enum import Enum
 
 db = mysql.connector.connect(
     host= "localhost",
-    user= "Ben",
-    passwd = "root",
+    user= "ssean",
+    passwd = "ssean",
     database = "GenCorp"
 
 )
