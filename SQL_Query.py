@@ -88,7 +88,7 @@ def Is_Populated(table_name):
 #Adders (TODO: Add Oversees)
 
 
-def Add_Employees(fname, mname, lname, password, authorization : str):
+def Add_Employee(fname, mname, lname, password, authorization : str):
     if not isinstance(authorization,Authorizations):
         raise TypeError('authorization must be an instance of Authorizations Enum')
     try:
@@ -119,7 +119,7 @@ def Add_Swarm(name : str, latitude : float, longitude : float):
         print(x)
     
 
-def Add_Chompskis(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
+def Add_Chompski(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
     try: 
         Chompskis = "INSERT Gnome_Chompski(age, name, height, weight, no_teeth, swarm_id)VALUES(%s,%s,%s,%s,%s,%s)", (age, name, height, weight, no_teeth, swarm_id)
         mycursor.execute(Chompskis)
@@ -156,9 +156,51 @@ def Delete_Swarm(condition : str):
     mycursor.execute("SELECT * FROM Swarm")
     for x in mycursor:
         print(x)
+
+def Delete_Chompski(condition : str):
+    try:
+        mycursor.execute("DELETE FROM Gnome_Chompski WHERE {}".format(condition))
+        db.commit()
+    except mysql.connector.errors.ProgrammingError as err:
+        print("Error: Condition does not exist. {}".format(err))
+        return err
+    mycursor.execute("SELECT * FROM Gnome_Chompski")
+    for x in mycursor:
+        print(x)
         
         
 #Updaters (TODO: Update_Location, Update_Password, )
+def Update_Password():
+    found = 0
+    while found == 0:
+        id = input("Please enter your employee ID (enter 0 to quit): ")
+        if id == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s)", (id,))
+        for x in mycursor:
+            found += 1
+        if found == 0:
+            print("That Employee ID does not exist. Please enter a valid ID or scram!")
+    
+    correct = 0
+    while correct == 0:
+        pswd = input("Please enter your current password (enter 0 to quit): ")
+        if pswd == '0':
+            quit()
+        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, pswd))
+        for x in mycursor:
+            correct += 1
+        if correct == 0:
+            print("That password is not correct. Enter the correct password or scram!")
+
+    while correct2 == 0:
+        new_pswd = input("Please enter your new password (enter 0 to quit): ")
+        if new_pswd == '0':
+            quit()
+        else:
+            mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, new_pswd))
+    
+    s
 def Update_Location():
     swarm_exists = 0
     while swarm_exists == 0:
