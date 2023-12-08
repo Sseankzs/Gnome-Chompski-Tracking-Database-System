@@ -114,6 +114,17 @@ def Add_Chompskis(age : int, name : str, height : float, weight : float, no_teet
         print(x)
     
 #Removers (TODO: add delete employee/chompski/oversees)
+def Delete_Employee(condition : str):
+    try:
+        mycursor.execute("DELETE FROM Employee WHERE %s",(condition))
+        db.commit()
+    except mysql.connector.errors.ProgrammingError as err:
+        print("Error: Condition does not exist. {}".format(err))
+        return err
+    mycursor.execute("SELECT * FROM Employee")
+    for x in mycursor:
+        print(x)
+
 def Delete_Swarm(condition : str):
     try: 
         mycursor.execute("DELETE FROM Swarm WHERE {}".format(condition))
@@ -135,8 +146,8 @@ def Update_Swarm():
         
         
 #Initial Set Ups (TODO: Populate Oversees)
-def Populate_All():
 
+def Populate_All():
     Populate_Employee()
     Populate_Swarm()
     Populate_Gnome_Chompskis()

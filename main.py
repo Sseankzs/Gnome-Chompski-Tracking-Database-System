@@ -190,12 +190,11 @@ def menu():
         
 def main():
 
+
     Initial_setup()
     
     menu()
-    
 
-    
     '''
     action = int(menu())
     while action != 0:
