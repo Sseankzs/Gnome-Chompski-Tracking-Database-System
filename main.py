@@ -142,25 +142,25 @@ def Delete_Tuples():
 def Search_Tuples():
     clear()
     sq.Show_Database()
-    table = int(input("Which table # would you like to delete from?: "))
+    table = int(input("Which table # would you like to search?: "))
     while table < 1 or table > 4:
         print("Please choose from the available table #")
         sq.Show_Database()
-        table = int(input("Which table # would you like to see? (3 does not work): "))
+        table = int(input("Which table # would you like to search?: "))
     match table:
         case 0:
             return
         case 1:
-            sq.Search_Employees()
+            sq.Search("Employee")
             Search_Tuples()
         case 2:
-            sq.Search_Chompskis()
+            sq.Search("Gnome_Chompskis")
             Search_Tuples()
         case 3:
-            sq.Search_Oversees()
+            sq.Search("Oversees")
             Search_Tuples()
         case 4:
-            sq.Search_Swarms()
+            sq.Search("Swarm")
             Search_Tuples()
 
 def menu():
