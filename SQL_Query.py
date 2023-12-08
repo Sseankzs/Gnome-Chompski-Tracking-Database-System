@@ -85,7 +85,7 @@ def Is_Populated(table_name):
     mycursor.execute(f'SELECT COUNT(*) FROM {table_name}')
     return mycursor.fetchone()[0] > 0
 
-#Adders (TODO: Add Oversees)
+#Adders (TODO: Add_Oversees)
 
 
 def Add_Employee(fname, mname, lname, password, authorization : str):
@@ -134,7 +134,7 @@ def Add_Chompski(age : int, name : str, height : float, weight : float, no_teeth
     for x in mycursor:
         print(x)
     
-#Removers (TODO: add delete employee/chompski/oversees)
+#Removers (TODO:)
 def Delete_Employee(condition : str):
     try:
         mycursor.execute("DELETE FROM Employee WHERE %s",(condition))
@@ -169,7 +169,7 @@ def Delete_Chompski(condition : str):
         print(x)
         
         
-#Updaters (TODO: Update_Location, Update_Password, )
+#Updaters (TODO: Update_Authorization, Update_Swarm )
 def Update_Password():
     found = 0
     while found == 0:
@@ -219,7 +219,7 @@ def Update_Swarm():
         quantity = mycursor.execute("SELECT COUNT (*) FROM Gnome_Chompskis WHERE swarm_id = {};".format(i))
         mycursor.execute("UPDATE Swarm SET quantity = %s WHERE swarm_id = %s", (quantity,i))
         
-        
+ #Search (TODO: Search_Chompski, Search_Employee, Search_Swarm, Search_Oversees)       
         
 #Initial Set Ups (TODO: Populate Oversees)
 def Populate_All():
