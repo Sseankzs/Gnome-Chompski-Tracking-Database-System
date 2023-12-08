@@ -154,7 +154,7 @@ def Delete_Tuples():
             print("'Employee_id = 2 AND lname = benjamin'")
             print("Join conditions with 'AND' or 'OR'")
             condition = input("Enter your condition for deletion: ")
-            sq.Delete_Employees(condition)
+            sq.Delete_Employee(condition)
             Delete_Tuples()
         case 2:
             print("Example conditions:")
@@ -162,7 +162,7 @@ def Delete_Tuples():
             print("Join conditions with 'AND' or 'OR'")
             condition = input("Enter your condition for deletion: ")
             print()
-            sq.Delete_Chompskis(condition)
+            sq.Delete_Chompski(condition)
             Delete_Tuples()
         case 3:
             print("Example conditions: 'employee_id = 2 AND swarm_id = poopy'")
