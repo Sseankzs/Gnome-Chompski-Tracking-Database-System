@@ -163,6 +163,7 @@ def Delete_Tuples():
             condition = input("Enter your condition for deletion: ")
             print()
             sq.Delete_Chompski(condition)
+
             Delete_Tuples()
         case 4:
             print("Example conditions:")
