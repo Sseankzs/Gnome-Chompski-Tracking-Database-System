@@ -16,11 +16,12 @@ git clone https://github.com/Sseankzs/Gnome-Chompski-Tracking-Database-System
 ```
 
 ## Populate Table Guide 
-In main.py, run the below code in order.  
-* sq.Create_Tables()
-* sq.Populate_Employees()  
-* sq.Populate_Swarms()  
-* sq.Populate_Gnome_Chompskis()  
-**NOTE:** Integrity constraints may occur if not done in order  
+1. Open MYSQL Workbench
+2. On the file tab, select 'Open SQL Script'
+3. Select setup.sql
+4. Edit SQL_Status.txt contents to "0"
+5. Change the username and password in db.connect in the source code
+6. Run the program 
+**NOTE:** Changes in the source code is  necessary
 
 [MySQLVideo]: https://www.youtube.com/watch?v=3vsC05rxZ8c&list=PLzMcBGfZo4-l5kVSNVKGO60V6RkXAVtp-&ab_channel=TechWithTim

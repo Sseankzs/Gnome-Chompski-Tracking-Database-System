@@ -53,12 +53,12 @@ def Populate_Table():
 def Show_Tables():
     clear()
     sq.Show_Database()
-    table = int(input("Which table # would you like to see? (3 does not work, enter 0 to quit): "))
+    table = int(input("Which table # would you like to see? (enter 0 to quit): "))
 
     while table < 0 or table > 4:
         print("Please choose from the available table #")
         sq.Show_Database()
-        table = int(input("Which table # would you like to see? (3 does not work, enter 0 to quit): "))
+        table = int(input("Which table # would you like to see? (enter 0 to quit): "))
     match table:
         case 0:
             clear(  )
@@ -87,7 +87,7 @@ def Show_Tables():
 def Add_Tuples():
     clear()
     sq.Show_Database()
-    table = int(input("Which table # would you like to add to?: "))
+    table = int(input("Which table # would you like to add to? [0 to exit]: "))
     
     while table < 0 or table > 4:
         print("Please choose from the available table #")
@@ -119,20 +119,24 @@ def Add_Tuples():
             height = float(input("Please enter Chompskis height: "))
             weight = float(input("Please enter Chompski weight: "))
             no_teeth = int(input("Please enter number of teeth: "))
+            print("Swarm id, Quantity")
+            sq.Show_Quantity()
             swarm_id = int(input("Please enter swarm_id: "))
             sq.Add_Chompski(age, name, height, weight, no_teeth, swarm_id)
             Add_Tuples()
 
         case 3:
+            sq.Show_Oversees()
             emp_id = int(input("Enter employee ID: "))
             swarm_id = int(input("Enter swarm id: "))
             sq.Add_Oversees(emp_id, swarm_id)
             Add_Tuples()
         case 4:
             name = input("Enter swarm name: ")
-            latitude = float("Enter latitude: ")
-            longitude = float("Enter longitude: ")
+            latitude = float(input("Enter latitude: "))
+            longitude = float(input("Enter longitude: "))
             sq.Add_Swarm(name, latitude, longitude)
+            
             Add_Tuples()
         case 0:
             return
@@ -165,6 +169,13 @@ def Delete_Tuples():
             sq.Delete_Chompski(condition)
 
             Delete_Tuples()
+        case 3: 
+            print("Example conditions:")
+            print("'employee_id = 12 AND employee_id = 12'")
+            print("Join conditions with 'AND' or 'OR'")
+            condition = input("Enter your condition for deletion: ")
+            sq.Delete_Oversees(condition)
+            Delete_Tuples()
         case 4:
             print("Example conditions:")
             print("'swarm_id = 2 AND name = Goopy'")
@@ -177,13 +188,13 @@ def Search_Tuples():
     clear()
     sq.Show_Database()
     table = int(input("Which table # would you like to search?: "))
-    while table < 1 or table > 4:
+    while table < 0 or table > 4:
         print("Please choose from the available table #")
         sq.Show_Database()
         table = int(input("Which table # would you like to search?: "))
     match table:
         case 0:
-            return
+            menu()
         case 1:
             sq.Search("Employee")
             Search_Tuples()
@@ -197,8 +208,107 @@ def Search_Tuples():
             sq.Search("Swarm")
             Search_Tuples()
 
+def Show_Max():
+    sq.Show_Database()
+    table_no = int(input("Which table would you like to choose: "))
+    while table_no < 0 or table_no > 4:
+        print("Please choose from the available table #")
+        table_no = int(input("Which table would you like to choose: "))
+        sq.Show_Database()
+        
+    match table_no:
+        case 0:
+            Show_Max()
+        case 1:
+            table = "employee"
+        case 2:
+            table = "gnome_chompskis"
+        case 3:
+            table = "oversees"
+        case 4:
+            table = "swarm"
+    sq.Show_Attributes(table)
+    attribute = input("Which attribute would you like to see?: ")
+    sq.Show_Max(attribute, table)
+
+def Show_Min():
+    sq.Show_Database()
+    table_no = int(input("Which table would you like to choose: "))
+    while table_no < 0 or table_no > 4:
+        print("Please choose from the available table #")
+        table_no = int(input("Which table would you like to choose: "))
+        sq.Show_Database()
+        
+    match table_no:
+        case 0:
+            Show_Min()
+        case 1:
+            table = "employee"
+        case 2:
+            table = "gnome_chompskis"
+        case 3:
+            table = "oversees"
+        case 4:
+            table = "swarm"
+    sq.Show_Attributes(table)
+    attribute = input("Which attribute would you like to see?: ")
+    sq.Show_Min(attribute, table)
+
+def Show_Avg():
+    sq.Show_Database()
+    table_no = int(input("Which table would you like to choose: "))
+    while table_no < 0 or table_no > 4:
+        print("Please choose from the available table #")
+        table_no = int(input("Which table would you like to choose: "))
+        sq.Show_Database()
+        
+    match table_no:
+        case 0:
+            Show_Avg()
+        case 1:
+            table = "employee"
+        case 2:
+            table = "gnome_chompskis"
+        case 3:
+            table = "oversees"
+        case 4:
+            table = "swarm"
+    sq.Show_Attributes(table)
+    attribute = input("Which attribute would you like to see?: ")
+    sq.Show_Avg(attribute, table)
+    
+def Swarm_Functions():
+    clear()
+    print("------Choose your actions------")
+    print("1. Average Quantity\t\t\t2. Sort by Quantity (Ascending)")
+    print("3. Sort by Quantity (Descending)\t\t4. Swarm Quantity")
+    print("5. Update Swarm Location")
+    choice = int(input("Choose one:"))
+    while choice < 0 or choice > 5:
+        print("Invalid input")
+        choice = int(input("Choose one:"))
+    match choice:
+        case 0:
+            return
+        case 1:
+            sq.Show_Avg_Quantity()
+            Swarm_Functions()
+        case 2:
+            sq.Show_Quantity_Asce()
+            Swarm_Functions()
+        case 3:
+            sq.Show_Quantity_Desc()
+            Swarm_Functions()
+        case 4:
+            sq.Show_Quantity()
+            Swarm_Functions()
+        case 5:
+            sq.Update_Location()
+            Swarm_Functions()
+            
+
 def menu():
-    #sq.login()
+    sq.login()
     action = 1
     clear()
     while action != 0:
@@ -206,10 +316,14 @@ def menu():
         print("Choose your actions:")
         print("1. Display Tables\t\t\t2. Add Tuples")
         print("3. Delete Tuples\t\t\t4. Search Tuples")
+        print("5. Swarm Functions \t\t\t6. Show Max")
+        print("7. Show Min\t\t\t\t8. Show Average")
+        print("9. Update Password")
         print("0. Quit")
         action = int(input(""))
-        while action < 0 or action > 5:
+        while action < 0 or action > 10:
             print("Invalid action, please choose from the menu below")
+            ok = input("press ENTER")
             action = menu()
         match action:
             case 1:
@@ -223,6 +337,22 @@ def menu():
                 menu()
             case 4:
                 Search_Tuples()
+                menu()
+            case 5:
+                Swarm_Functions()
+                menu()
+            case 6:
+                Show_Max()
+                menu()
+            case 7:
+                Show_Min()
+                menu()
+            case 8:
+                Show_Avg()
+                menu()
+            case 9:
+                clear()
+                sq.Update_Password()
                 menu()
             case 0:
                 quit()
