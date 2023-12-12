@@ -4,8 +4,8 @@ from enum import Enum
 
 db = mysql.connector.connect(
     host= "localhost",
-    user= "Ben",
-    passwd = "root",
+    user= "Ssean",
+    password = "Ssean",
     database = "GenCorp"
 
 )
@@ -59,7 +59,7 @@ def Show_Chompskis():
         print(x)
 
 def Show_Swarms():
-    print("s_id, name, quantity, longitude, latitude")
+    print("s_id, name, longitude, latitude")
     mycursor.execute("SELECT * FROM Swarm")
     for x in mycursor:
         print(x)
@@ -76,8 +76,60 @@ def Show_Database():
     for x in mycursor:  
         print("Table #{}: {}".format(i, x)), 
         i += 1
-    
 
+def Show_Quantity():
+    mycursor.execute("SELECT swarm_id, COUNT(swarm_id) as quantity FROM gnome_chompskis group by swarm_id")
+    print("swarm_id, quantity")
+    for x in mycursor:
+        print(x)
+    cont = input("press ENTER")
+    
+def Show_Max(max : str, table : str):
+    mycursor.execute(f"SELECT MAX({max}) FROM {table}")
+    for x in mycursor:
+        print(x)
+    ok = input("press ENTER")
+
+def Show_Min(min : str, table : str):
+    mycursor.execute(f"SELECT MIN({min}) FROM {table}")
+    for x in mycursor:
+        print(x)
+    ok = input("press ENTER")
+
+def Show_Avg(avg : str, table : str):
+    mycursor.execute(f"SELECT AVG({avg}) FROM {table}")
+    print(f"average {avg}:")
+    for x in mycursor:
+        print(x)
+    ok = input("press ENTER")
+    
+def Show_Avg_Quantity():
+    mycursor.execute("SELECT swarm.swarm_id, COUNT(gnome_chompskis.swarm_id) as quantity FROM swarm JOIN gnome_chompskis ON swarm.swarm_id = gnome_chompskis.swarm_id GROUP BY swarm.swarm_id")
+    print("Swarm_id, Quantity")
+    for x in mycursor:
+        print(x)
+    ok = input("press ENTER")
+
+def Show_Quantity_Desc():
+    mycursor.execute("SELECT swarm.swarm_id, COUNT(gnome_chompskis.swarm_id) as quantity FROM swarm JOIN gnome_chompskis ON swarm.swarm_id = gnome_chompskis.swarm_id GROUP BY swarm.swarm_id ORDER BY quantity DESC")
+    print("Swarm_id, Quantity")
+    for x in mycursor:
+        print(x)
+    ok = input("press ENTER")
+
+def Show_Quantity_Asce():
+    mycursor.execute("SELECT swarm.swarm_id, COUNT(gnome_chompskis.swarm_id) as quantity FROM swarm JOIN gnome_chompskis ON swarm.swarm_id = gnome_chompskis.swarm_id GROUP BY swarm.swarm_id ORDER BY quantity ASC")
+    print("Swarm_id, Quantity")
+    for x in mycursor:
+        print(x)
+    ok = input("press ENTER")
+
+def Show_Attributes(table_name):
+    mycursor.execute("SHOW COLUMNS FROM {}".format(table_name))
+    print("Attributes")
+    for x in mycursor:
+        print(x)
+    
 #Getters (TODO: nothing yet)
 def Get_Authorization(employee_id : int):
     authorization = mycursor.execute(
@@ -91,10 +143,12 @@ def Is_Populated(table_name):
 def Add_Oversees(Emp_id, Swarm_id):
     mycursor.execute("INSERT INTO Oversees(employee_id, swarm_id) VALUES(%s, %s)", (Emp_id, Swarm_id))
     db.commit()
-    
+    print("Insertion succesful")
+    choice = input("Oversees updated [press ENTER]")
+
 
 def Add_Employees(fname, mname, lname, password, authorization_no):
-    authorization = authorization_list[authorization_no]
+    authorization = authorization_list[authorization_no - 1]
 
     try:
         mycursor.execute("INSERT INTO Employee(fname, mname, lname, password, authorization)VALUES(%s,%s,%s,%s,%s)", (fname, mname, lname, password, authorization))
@@ -106,12 +160,12 @@ def Add_Employees(fname, mname, lname, password, authorization_no):
     print("Updated Employee Table:")
     print("(E_id, Fname, Mname, Lname, Password, Authorization)")
     mycursor.execute("SELECT * FROM Employee")
-    print("The insertion was succesful!")
-    choice = input("Would you like to commit? (Enter 1 to commit): ")
-    if choice == 1:
-        db.commit()
+    print("The insertion was succesful!")    
     for x in mycursor:
         print(x)
+    choice = input("Database Updated [press ENTER]")
+    if choice == 1:
+        db.commit()
 
 def Add_Swarm(name : str, latitude : float, longitude : float):
     try:
@@ -122,23 +176,20 @@ def Add_Swarm(name : str, latitude : float, longitude : float):
     
     print("Swarm Added Successfully")
     print("Updated Swarm Table:")
-    print("(s_id, name, quantity, latitude, longitude)")
+    print("(s_id, name, latitude, longitude)")
     mycursor.execute("SELECT * FROM Swarm")
     print("The insertion was succesful!")
-    choice = input("Would you like to commit? (Enter 1 to commit): ")
-    if choice == 1:
-        db.commit()
     for x in mycursor:
         print(x)
+    choice = input("Database Updated [press ENTER]")
+    if choice == 1:
+        db.commit()
     
 
 def Add_Chompski(age : int, name : str, height : float, weight : float, no_teeth : int, swarm_id : int):
     try: 
         mycursor.execute("INSERT Gnome_Chompskis(age, name, height, weight, no_teeth, swarm_id)VALUES(%s,%s,%s,%s,%s,%s)", (age, name, height, weight, no_teeth, swarm_id))
         db.commit()
-        quantity = mycursor.execute("SELECT FROM Gnome_Chompskis WHERE swarm_id = {}".format(swarm_id))
-        mycursor.execute("UPDATE Swarm SET quantity = {} WHERE swarm_id = {}".format(quantity,swarm_id))
-        db.commit()   
     except mysql.connector.IntegrityError as err:
         print("Error: {}".format(err))
         return err
@@ -146,42 +197,61 @@ def Add_Chompski(age : int, name : str, height : float, weight : float, no_teeth
     mycursor.execute("SELECT * FROM Gnome_Chompskis")
     for x in mycursor:
         print(x)
+    choice = input("Database Updated [press ENTER]")
+    if choice == 1:
+        db.commit()
     
 #Removers (TODO:)
 def Delete_Employee(condition : str):
     try:
         mycursor.execute("DELETE FROM Employee WHERE {}".format(condition))
         db.commit()
-    except mysql.connector.errors.ProgrammingError as err:
-        print("Error: Condition does not exist. {}".format(err))
+    except mysql.connector.errors.IntegrityError or mysql.connector.errors.ProgrammingError as err:
+        print(err)
         ok = input("press ENTER")
         return err
     mycursor.execute("SELECT * FROM Employee")
     for x in mycursor:
         print(x)
+    choice = input("Database updated [press ENTER]")
 
+
+def Delete_Oversees(condition: str):
+    try:
+        mycursor.execute("DELETE FROM oversees WHERE {}".format(condition))
+        db.commit
+        mycursor.execute("SELECT * FROM oversees")
+        for  x in mycursor:
+            print(x)
+        ok = input("Database updated [press ENTER]")
+    except mysql.connector.errors.IntegrityError or mysql.connector.errors.ProgrammingError as er:
+        print(er)
+        ok = input("press ENTER")
+    
+    
+            
 def Delete_Swarm(condition : str):
     try: 
         mycursor.execute("DELETE FROM Swarm WHERE {}".format(condition))
         db.commit()
-    except mysql.connector.errors.ProgrammingError as err:
+        mycursor.execute("SELECT * FROM Swarm")
+        for x in mycursor:
+            print(x)
+    except mysql.connector.errors.IntegrityError or mysql.connector.errors.ProgrammingError as err:
         print("Error: Condition does not exist. {}".format(err))
-        return err
-    mycursor.execute("SELECT * FROM Swarm")
-    for x in mycursor:
-        print(x)
+        ok = input("press ENTER")
+    
 
 def Delete_Chompski(condition : str):
     try:
         mycursor.execute("DELETE FROM Gnome_Chompski WHERE {}".format(condition))
         db.commit()
+        mycursor.execute("SELECT * FROM Gnome_Chompski")
+        for x in mycursor:
+            print(x)
     except mysql.connector.errors.ProgrammingError as err:
         print("Error: Condition does not exist. {}".format(err))
-        return err
-    mycursor.execute("SELECT * FROM Gnome_Chompski")
-    for x in mycursor:
-        print(x)
-        
+        ok = input("press ENTER")
         
 #Updaters (TODO: Update_Authorization, Update_Swarm )
 def Update_Password():
@@ -207,7 +277,7 @@ def Update_Password():
         if correct == 0:
             print("That password is not correct. Enter the correct password or scram!")
 
-    while correct2 == 0:
+    while correct == 0:
         new_pswd = input("Please enter your new password (enter 0 to quit): ")
         if new_pswd == '0':
             quit()
@@ -228,18 +298,24 @@ def Update_Location():
             db.commit()
     return 0
 
-def Update_Swarm():
-    for i in range (1,10):
-        quantity = mycursor.execute("SELECT COUNT (*) FROM Gnome_Chompskis WHERE swarm_id = {};".format(i))
-        mycursor.execute("UPDATE Swarm SET quantity = %s WHERE swarm_id = %s", (quantity,i))
-        db.commit()
+
         
  #Search (TODO: Search_Chompski, Search_Employee, Search_Swarm, Search_Oversees)
 def Search(table_name : str):
     mycursor.execute("SHOW COLUMNS FROM {}".format(table_name))
-    Conditions = input("Attributes to search (input in SQL readable format or else): ")
-    mycursor.execute("SELECT (*) FROM %s WHERE %s", (table_name, Conditions))
-
+    print("Attributes")
+    for x in mycursor:
+        print(x)
+    Conditions = input("Attributes to search (employee_id = 5 OR/AND fname = 'john'): ")
+    try:
+        mycursor.execute(f"SELECT * FROM {table_name} WHERE {Conditions}")
+        for x in mycursor:
+            print(x)
+            ok = input("press ENTER")
+    except mysql.connector.errors.ProgrammingError as er:
+        print(er)
+        print("note: conditions that are variable type VARCHAR might require a single quote ['']")
+        ok = input("press ENTER")
         
 #Initial Set Ups (TODO: Populate Oversees)
 def Populate_All():
@@ -253,7 +329,7 @@ def Create_DB():
 
 def Create_Tables():
     mycursor.execute("CREATE TABLE Employee (employee_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,fname VARCHAR(50) NOT NULL, mname VARCHAR(50),lname VARCHAR(50) NOT NULL, password VARCHAR(50) NOT NULL, authorization ENUM('Intern','Employee', 'Supervisor', 'Bossman'))")
-    mycursor.execute("CREATE TABLE Swarm (swarm_id int PRIMARY KEY AUTO_INCREMENT, name varchar(45) NOT NULL,quantity int, latitude double(9, 5), longitude double (9,5))")
+    mycursor.execute("CREATE TABLE Swarm (swarm_id int PRIMARY KEY AUTO_INCREMENT, name varchar(45) NOT NULL, latitude double(9, 5), longitude double (9,5))")
     mycursor.execute("CREATE TABLE Oversees (employee_id int, swarm_id int, FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),  FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
     mycursor.execute("CREATE TABLE Gnome_Chompskis (chompskis_id int PRIMARY KEY AUTO_INCREMENT,name varchar(45) NOT NULL,  age smallint, height double(10,2), weight double (10,2), no_teeth int UNSIGNED, swarm_id int, FOREIGN KEY(swarm_id) REFERENCES Swarm(swarm_id))")
     print("Tables created")
