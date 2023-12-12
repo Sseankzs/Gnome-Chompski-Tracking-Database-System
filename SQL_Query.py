@@ -260,29 +260,41 @@ def Update_Password():
         id = input("Please enter your employee ID (enter 0 to quit): ")
         if id == '0':
             quit()
-        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s)", (id,))
-        for x in mycursor:
-            found += 1
+        try:
+            mycursor.execute(f"SELECT * FROM Employee WHERE employee_id = {id}")
+            for x in mycursor:
+                found += 1
+        except:
+            print("wrong password")
         if found == 0:
             print("That Employee ID does not exist. Please enter a valid ID or scram!")
+            ok = input("press ENTER")
     
     correct = 0
     while correct == 0:
         pswd = input("Please enter your current password (enter 0 to quit): ")
         if pswd == '0':
             quit()
-        mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, pswd))
+        mycursor.execute(f"SELECT * FROM Employee WHERE employee_id = {id} AND password = {pswd}")
         for x in mycursor:
             correct += 1
         if correct == 0:
             print("That password is not correct. Enter the correct password or scram!")
+            ok = input("press ENTER")
 
-    while correct == 0:
+    while correct == 1:
         new_pswd = input("Please enter your new password (enter 0 to quit): ")
         if new_pswd == '0':
             quit()
         else:
-            mycursor.execute("SELECT * FROM Employee WHERE employee_id = (%s) AND password = (%s)", (id, new_pswd))
+            mycursor.execute(f"UPDATE employee SET password = '{new_pswd}' WHERE employee_id = {id} AND password = {pswd}")
+            db.commit()
+            print("Changes Saved")
+            mycursor.execute(f"SELECT * FROM employee WHERE employee_id = {id}")
+            for x in mycursor:
+                print(x)
+            ok = input("press ENTER")
+            correct += 1
     
 def Update_Location():
     swarm_exists = 0
@@ -296,7 +308,9 @@ def Update_Location():
             long = input("Please enter the new longitude for the swarm: ")
             mycursor.execute("UPDATE Swarm SET latitude = (%s), longitude = (%s) WHERE swarm_id = (%s)", (lat, long, s_id))
             db.commit()
-    return 0
+    print("Location  Updated")
+    Show_Swarms()
+    ok = input("press ENTER")
 
 
         

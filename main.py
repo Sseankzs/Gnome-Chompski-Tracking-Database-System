@@ -282,8 +282,9 @@ def Swarm_Functions():
     print("------Choose your actions------")
     print("1. Average Quantity\t\t\t2. Sort by Quantity (Ascending)")
     print("3. Sort by Quantity (Descending)\t\t4. Swarm Quantity")
+    print("5. Update Swarm Location")
     choice = int(input("Choose one:"))
-    while choice < 0 or choice > 4:
+    while choice < 0 or choice > 5:
         print("Invalid input")
         choice = int(input("Choose one:"))
     match choice:
@@ -301,11 +302,13 @@ def Swarm_Functions():
         case 4:
             sq.Show_Quantity()
             Swarm_Functions()
-        
+        case 5:
+            sq.Update_Location()
+            Swarm_Functions()
             
 
 def menu():
-    #sq.login()
+    sq.login()
     action = 1
     clear()
     while action != 0:
@@ -315,9 +318,10 @@ def menu():
         print("3. Delete Tuples\t\t\t4. Search Tuples")
         print("5. Swarm Functions \t\t\t6. Show Max")
         print("7. Show Min\t\t\t\t8. Show Average")
+        print("9. Update Password")
         print("0. Quit")
         action = int(input(""))
-        while action < 0 or action > 8:
+        while action < 0 or action > 10:
             print("Invalid action, please choose from the menu below")
             ok = input("press ENTER")
             action = menu()
@@ -345,6 +349,10 @@ def menu():
                 menu()
             case 8:
                 Show_Avg()
+                menu()
+            case 9:
+                clear()
+                sq.Update_Password()
                 menu()
             case 0:
                 quit()
