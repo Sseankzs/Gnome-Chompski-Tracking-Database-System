@@ -1,3 +1,6 @@
+# Purpose
+To demonstrate the use of MySQL functions, such as aggregate functions, modify functions, and read functions.
+
 # Gnome-Chompski-Tracking-Database-System
 A man-made invasive species called Gnome Chompskis have become an epidemic on Earth. Swarms of these pests have been wiping out towns and villages around the world. Some Gnome Chompskis have also been reported to have special mutations, such as using teeth as projectiles. The GenCorp CEO has divided up the swarms among each of GenCorp’s members to better manage all the swarms. 
 
